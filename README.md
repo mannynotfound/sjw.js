@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mannynotfound/sjw.js/master/sjwjs-logo.png" />
+</p>
+
 # sjw.js
 
 A tool for automatically finding problematic users on Twitter.com
@@ -45,6 +49,7 @@ set a config object that looks like so:
 * restructure to leverage [supreme-stream](https://github.com/mannynotfound/supreme-stream)
 * write as a requireable node module
 * turn into class that emits events
+* create `triggers` api for social rulesets
 * pretty up the console output some more
 * allow more output customization
 * incorporate NLP where makes sense
