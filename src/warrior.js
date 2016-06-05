@@ -47,6 +47,11 @@ Warrior.prototype = {
   },
 
   policeTweet: function(tweet) {
+    if (tweet.retweeted_status && tweet.retweeted_status.length ||
+        tweet.quoted_status && tweet.quoted_status.length) {
+      return;
+    }
+
     var self = this;
     getFace(tweet, self.cfg.mashape_key, function(err, face) {
       if (err) return;
