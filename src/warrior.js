@@ -28,17 +28,18 @@ Warrior.prototype = {
     return problemTraits.length && problemTraits;
   },
 
-  handleProblematic: function(tweet, face, problems) {
+  handleProblematic: function(tweet, face, problems, sourceCfg) {
     var username = tweet.user.screen_name || 'Anonymous';
     var log = {
       user: username,
       tweet: tweet,
       face: face,
-      problems: problems
+      problems: problems,
+      source: sourceCfg,
     };
 
     if (this.cb) {
-      this.cb(log);
+      this.cb(log, sourceCfg);
     }
 
     if (this.cfg.logfile) {
@@ -46,7 +47,7 @@ Warrior.prototype = {
     }
   },
 
-  policeTweet: function(tweet) {
+  policeTweet: function(tweet, sourceCfg) {
     if (tweet.retweeted_status && tweet.retweeted_status.length ||
         tweet.quoted_status && tweet.quoted_status.length) {
       return;
@@ -63,7 +64,7 @@ Warrior.prototype = {
         var problems = self.checkProblematic(tweet, face, trigger);
         if (!problems) return;
 
-        self.handleProblematic(tweet, face, problems);
+        self.handleProblematic(tweet, face, problems, sourceCfg);
       });
     })
   },
@@ -88,7 +89,7 @@ Warrior.prototype = {
       return console.log('GOT AN ERROR!', err);
     }
 
-    this.policeTweet(data);
+    this.policeTweet(data, cfg);
   },
 
   startStream: function() {
