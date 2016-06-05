@@ -67,12 +67,12 @@ Warrior.prototype = {
     try {
       var logs = require(filepath);
 
-      if (Array.isArray(logs)) {
-        logs.push(log);
-        jsonfile.writeFile(filepath, logs, {spaces: 2});
-      } else {
-        throw new Error('logfile is not an array');
+      if (!Array.isArray(logs)) {
+        logs = [];
       }
+
+      logs.push(log);
+      jsonfile.writeFile(filepath, logs, {spaces: 2});
     } catch(e) {
       console.log('COULD NOT WRITE TO FILE', e);
     }

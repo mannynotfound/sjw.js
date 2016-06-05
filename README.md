@@ -18,38 +18,80 @@ set a config object that looks like so:
 
 ```js
 {
+  // mashape key to use face detection API
   "mashape_key": "XXX",
-  "twitter_api": {
-    "access_token_key": "XXX",
-    "access_token_secret": "XXX",
-    "consumer_key": "XXX",
-    "consumer_secret": "XXX"
-  },
+  // these are the rules for problematic tweets
   "triggers": [
     {
+      // trigger words
       "keywords": [
         "twitter",
         "search",
         "terms",
         "here"
       ],
+      // problematic offendor traits
       "problematics": [
         "Male",
         "White"
       ]
     }
+  ],
+  "accounts": [
+    {
+      "fullname": "XXXX",
+      "creds": {
+        "consumer_key": "XXX",
+        "consumer_secret": "XXX",
+        "access_token_key": "XXX",
+        "access_token_secret": "XXX"
+      }
+    }
+  ],
+  "streams": [
+    {
+      "label": "Racial Injustice",
+      "channels": {
+        "nword": [
+          "bad",
+          "words",
+          "to",
+          "track",
+          "here"
+        ]
+      }
+    }
   ]
 }
 ```
 
-`node index` -> output to `data/dump.json`
+If you would like to write to a file, include a "logfile" key with the full system path name like so:
+
+```js
+var path = require('path');
+
+config.logfile = path.resolve(__dirname, '../my/output/file/data.json');
+```
+
+Once configuration is set, instantiate a warrior like so:
+
+```js
+var Warrior = require('sjw.js').warrior;
+
+var config = require('../config');
+config.logfile = path.resolve(__dirname, '../data/dump.json');
+
+new SJW(config, function(results) {
+ console.log('FOUND A PROBLEM WITHIN ', results);
+}).startStream();
+```
 
 ## TODO:
 
-* restructure to leverage [supreme-stream](https://github.com/mannynotfound/supreme-stream)
-* write as a requireable node module
+* ~~restructure to leverage [supreme-stream](https://github.com/mannynotfound/supreme-stream)~~
+* ~~write as a requireable node module~~
 * turn into class that emits events
 * create `triggers` api for social rulesets
 * pretty up the console output some more
-* allow more output customization
+* ~~allow more output customization~~
 * incorporate NLP where makes sense
