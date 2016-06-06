@@ -8,9 +8,8 @@ A tool for automatically finding problematic users on Twitter.com
 
 ## inspo
 
-Currently an experiment with face detection API, im listening to twitter stream for the "n word" and running face detection against the tweeter's profile pic.
-If a face belonging to a white person is found, the user gets logged to a json file. This can be used for data processing or you can use the callback of the detection
-to act on the tweet appropriately :smiling_imp:.
+Currently powering an experiment with face detection API, im listening to twitter stream for the "n word" and running face detection against the tweeter's profile pic.
+If a face belonging to a white person is found, the user is saved to a database and an automated screenshot of the tweet is tweeted by [@sjw_js](https://twitter.com/sjw_js) for permanent documentation.
 
 ## usage
 

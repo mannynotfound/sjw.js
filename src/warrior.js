@@ -39,7 +39,7 @@ Warrior.prototype = {
     };
 
     if (this.cb) {
-      this.cb(log, sourceCfg);
+      this.cb(log);
     }
 
     if (this.cfg.logfile) {
