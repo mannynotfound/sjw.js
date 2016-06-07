@@ -13,6 +13,7 @@ function getFace(tweet, key, cb) {
     .header("Accept", "application/json")
     .end(function(result) {
       if (!result.body || !result.body.face || !result.body.face.length) {
+        console.log('FOUND NO FACE FOR USER ', tweet.user.screen_name)
         return cb(new Error('No Face Found!'));
       }
 

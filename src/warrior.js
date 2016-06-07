@@ -17,15 +17,17 @@ Warrior.prototype = {
 
     var problemTraits = [];
 
-    if (trigger.problematics.indexOf(face.attribute.gender.value) > -1) {
+    if (trigger.problematics.indexOf(face.attribute.gender.value) > -1 &&
+       face.attribute.gender.confidence >= 90) {
       problemTraits.push(face.attribute.gender.value);
     }
 
-    if (trigger.problematics.indexOf(face.attribute.race.value) > -1) {
+    if (trigger.problematics.indexOf(face.attribute.race.value) > -1 &&
+       face.attribute.race.confidence >= 90) {
       problemTraits.push(face.attribute.race.value);
     }
 
-    return problemTraits.length && problemTraits;
+    return problemTraits.length ? problemTraits : false;
   },
 
   handleProblematic: function(tweet, face, problems, sourceCfg) {
@@ -48,8 +50,7 @@ Warrior.prototype = {
   },
 
   policeTweet: function(tweet, sourceCfg) {
-    if (tweet.retweeted_status && tweet.retweeted_status.length ||
-        tweet.quoted_status && tweet.quoted_status.length) {
+    if (tweet.retweeted_status || tweet.quoted_status) {
       return;
     }
 
