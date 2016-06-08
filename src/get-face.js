@@ -2,8 +2,6 @@ var unirest = require('unirest');
 
 function getFace(tweet, key, cb) {
   if (!tweet.user || !tweet.user.profile_image_url) {
-    console.log('NO PROFILE IMAGE FOUND!');
-    console.log('');
     return cb(new Error('No Profile Image'))
   }
   var url = encodeURI(tweet.user.profile_image_url.replace('normal.jpg', '400x400.jpg'));
@@ -13,7 +11,6 @@ function getFace(tweet, key, cb) {
     .header("Accept", "application/json")
     .end(function(result) {
       if (!result.body || !result.body.face || !result.body.face.length) {
-        console.log('FOUND NO FACE FOR USER ', tweet.user.screen_name)
         return cb(new Error('No Face Found!'));
       }
 
