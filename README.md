@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="https://raw.githubusercontent.com/mannynotfound/sjw.js/master/cover.png"/>
+</p>
+
+<p align="center">
   <img src="https://raw.githubusercontent.com/mannynotfound/sjw.js/master/sjwjs-logo.png" width="300"/>
 </p>
 
