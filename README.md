@@ -84,8 +84,8 @@ var Warrior = require('sjw').warrior;
 var config = require('../config');
 config.logfile = path.resolve(__dirname, '../data/dump.json');
 
-new SJW(config, function(results, cfg) {
- console.log('FOUND A PROBLEM WITHIN ', results, ' WITH CONFIG ', cfg);
+new SJW(config, function(results) {
+ console.log('FOUND A PROBLEM WITHIN ', results, ' FROM ', results.source);
 }).startStream();
 ```
 
