@@ -10,4 +10,9 @@ function sjCallback(results) {
   console.log(JSON.stringify(results).yellow.bold);
 }
 
-new SJW(config, sjCallback).startStream();
+var sjwStream = new SJW(config, sjCallback);
+sjwStream.startStream();
+
+sjwStream.getClient().get('account/verify_credentials', {}, function(err, resp) {
+  console.log(err || resp);
+});

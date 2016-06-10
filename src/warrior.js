@@ -5,6 +5,7 @@ var getFace = require('./get-face.js').getFace;
 function Warrior(config, cb) {
   this.cfg = config;
   this.cb = cb;
+  return this;
 }
 
 Warrior.prototype = {
@@ -94,11 +95,26 @@ Warrior.prototype = {
   },
 
   startStream: function() {
+    var streamCfg = {
+      label: 'SJW Stream',
+      channels: {}
+    }
+
+    this.cfg.triggers.forEach((t) => {
+      streamCfg.channels[t.label] = t.keywords
+    });
+
     this.stream = new SupremeStream(
-      this.cfg.streams,
+      [streamCfg],
       this.cfg.accounts,
       this.callBack.bind(this)
-    ).startAll();
+    );
+
+    this.stream.startAll()
+  },
+
+  getClient() {
+    return this.stream.getClients()[0];
   }
 }
 

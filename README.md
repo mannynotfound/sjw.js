@@ -26,6 +26,8 @@ set a config object that looks like so:
   // these are the rules for problematic tweets
   "triggers": [
     {
+      // identifier for trigger
+      "label": "nword",
       // trigger words
       "keywords": [
         "twitter",
@@ -48,20 +50,6 @@ set a config object that looks like so:
         "consumer_secret": "XXX",
         "access_token_key": "XXX",
         "access_token_secret": "XXX"
-      }
-    }
-  ],
-  "streams": [
-    {
-      "label": "Racial Injustice",
-      "channels": {
-        "nword": [
-          "bad",
-          "words",
-          "to",
-          "track",
-          "here"
-        ]
       }
     }
   ]
