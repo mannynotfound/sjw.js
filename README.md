@@ -72,9 +72,12 @@ var Warrior = require('sjw').warrior;
 var config = require('../config');
 config.logfile = path.resolve(__dirname, '../data/dump.json');
 
-new SJW(config, function(results) {
+function warriorCallback(results) {
  console.log('FOUND A PROBLEM WITHIN ', results, ' FROM ', results.source);
-}).startStream();
+}
+
+var sjWarrior = new SJW(config, warriorCallback);
+sjWarrior.startStream();
 ```
 
 ## TODO:
