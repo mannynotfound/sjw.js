@@ -1,3 +1,3 @@
 module.exports = {
-  warrior: require('./warrior')
+  Warrior: require('./warrior')
 };

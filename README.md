@@ -67,7 +67,7 @@ config.logfile = path.resolve(__dirname, '../my/output/file/data.json');
 Once configuration is set, instantiate a warrior like so:
 
 ```js
-var Warrior = require('sjw').warrior;
+var Warrior = require('sjw').Warrior;
 
 var config = require('../config');
 config.logfile = path.resolve(__dirname, '../data/dump.json');
@@ -76,7 +76,7 @@ function warriorCallback(results) {
  console.log('FOUND A PROBLEM WITHIN ', results, ' FROM ', results.source);
 }
 
-var sjWarrior = new SJW(config, warriorCallback);
+var sjWarrior = new Warrior(config, warriorCallback);
 sjWarrior.startStream();
 ```
 
