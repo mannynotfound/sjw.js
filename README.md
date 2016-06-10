@@ -73,7 +73,7 @@ var config = require('../config');
 config.logfile = path.resolve(__dirname, '../data/dump.json');
 
 function warriorCallback(results) {
- console.log('FOUND A PROBLEM WITHIN ', results, ' FROM ', results.source);
+ console.log('FOUND A PROBLEM WITHIN ', results.tweet, ' FROM ', results.source);
 }
 
 var sjWarrior = new Warrior(config, warriorCallback);
