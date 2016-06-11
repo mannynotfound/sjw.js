@@ -22,7 +22,7 @@ be fed into smarter algorithms and reveal mystic truths.
 * Tweet with trigger words detected
 * Facial recognition run on avatar
 * If face detected, check for offending traits & context
-* If problematic, take an automated screenshot + store (tweet object)[https://dev.twitter.com/overview/api/tweets] in database
+* If problematic, take an automated screenshot + store [tweet object](https://dev.twitter.com/overview/api/tweets) in database
 * Curate tweets manually or run ML suite against database 
 * Tweet the best screenshots & findings at [@sjw.js](https://twitter.com/sjw_js)
 
@@ -99,4 +99,4 @@ sjWarrior.startStream();
 * create `triggers` api for social rulesets
 * pretty up the console output some more
 * ~~allow more output customization~~
-* incorporate NLP where make sense
+* incorporate NLP where it makes sense

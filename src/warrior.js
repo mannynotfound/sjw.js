@@ -50,31 +50,6 @@ Warrior.prototype = {
     }
   },
 
-  //checkVictim(tweet, face, sourceCfg) {
-    //var victims = [];
-    //var triggered = {};
-
-    //this.cfg.triggers.forEach(function(trigger) {
-      //// trigger config doesnt list victims, return
-      //if (!trigger.victims) return;
-      //// tweet doesnt contain trigger terms
-      //trigger.keywords.forEach(function(kw) {
-        //if (tweet.text.indexOf(kw) > -1) {
-          //console.log('HAS TRIGGERS!');
-          //// write to obj key so in case we have multiple keywords
-          //// we only log one instance of the trigger
-          //triggered[trigger.label] = trigger;
-        //}
-      //});
-    //});
-
-    //if (Object.keys(triggered).length) {
-      //Object.keys(triggered).forEach(function(t) {
-        //var tObj = triggered[t];
-      //});
-    //}
-  //},
-
   policeTweet: function(tweet, sourceCfg) {
     if (tweet.retweeted_status || tweet.quoted_status) {
       return;
