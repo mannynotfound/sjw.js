@@ -9,12 +9,68 @@ function Warrior(config, cb) {
 }
 
 Warrior.prototype = {
-  checkProblematic: function(tweet, face, trigger) {
+  handleProblematic: function(tweet, face, probCfg, sourceCfg) {
+    var username = tweet.user.screen_name || 'Anonymous';
+    var log = {
+      user: username,
+      tweet: tweet,
+      face: face,
+      problems: probCfg.problems,
+      source: sourceCfg,
+    };
+
+    if (probCfg.victims) {
+      log.victims = probCfg.victims
+    }
+
+    if (this.cb) {
+      this.cb(log);
+    }
+
+    if (this.cfg.logfile) {
+      this.writeFile(this.cfg.logfile, log);
+    }
+  },
+
+  checkVictim(tweet, trigger, cb) {
+    var victims = [];
+
+    var self = this;
+    this.getClient().get('users/show', {
+      id: tweet.in_reply_to_user_id
+    }, function(err, user) {
+      if (err)  {
+        return cb(false);
+      }
+      if (!user.profile_image_url) {
+        return cb(false);
+      }
+      getFace(user.profile_image_url, self.cfg.mashape_key, function(err, face) {
+        if (err) {
+          return cb(false);
+        }
+
+        if (trigger.victims.indexOf(face.attribute.gender.value) > -1 &&
+           face.attribute.gender.confidence >= 90) {
+          victims.push(face.attribute.gender.value);
+        }
+
+        if (trigger.victims.indexOf(face.attribute.race.value) > -1 &&
+           face.attribute.race.confidence >= 90) {
+          victims.push(face.attribute.race.value);
+        }
+
+        return cb(victims.length ? victims : false);
+      });
+    });
+  },
+
+  checkProblematic: function(tweet, face, trigger, cb) {
     var triggers = trigger.keywords.filter(function(kw) {
       return tweet.text.indexOf(kw) > -1;
     }).length;
 
-    if (!triggers) return false;
+    if (!triggers) return cb({problems: false});
 
     var problemTraits = [];
 
@@ -28,45 +84,46 @@ Warrior.prototype = {
       problemTraits.push(face.attribute.race.value);
     }
 
-    return problemTraits.length ? problemTraits : false;
-  },
+    if (!problemTraits.length) return cb({problems: false});
 
-  handleProblematic: function(tweet, face, problems, sourceCfg) {
-    var username = tweet.user.screen_name || 'Anonymous';
-    var log = {
-      user: username,
-      tweet: tweet,
-      face: face,
-      problems: problems,
-      source: sourceCfg,
-    };
+    if (trigger.victims) {
+      if (!tweet.in_reply_to_user_id) {
+        return cb({problems: false});
+      }
 
-    if (this.cb) {
-      this.cb(log);
-    }
-
-    if (this.cfg.logfile) {
-      this.writeFile(this.cfg.logfile, log);
+      this.checkVictim(tweet, trigger, function(victims) {
+        if (!victims) {
+          return cb({problems: false});
+        }
+        cb({
+          problems: problemTraits,
+          victims: victims
+        });
+      });
+    } else {
+      cb({problems: problemTraits});
     }
   },
 
   policeTweet: function(tweet, sourceCfg) {
-    if (tweet.retweeted_status || tweet.quoted_status) {
+    if (tweet.retweeted_status || tweet.quoted_status || !tweet.user
+        || !tweet.user.profile_image_url) {
       return;
     }
 
     var self = this;
-    getFace(tweet, self.cfg.mashape_key, function(err, face) {
+
+    getFace(tweet.user.profile_image_url, self.cfg.mashape_key, function(err, face) {
       if (err) return;
 
       var gender = face.attribute.gender;
       var race = face.attribute.race;
 
       self.cfg.triggers.forEach(function(trigger) {
-        var problems = self.checkProblematic(tweet, face, trigger);
-        if (!problems) return;
-
-        self.handleProblematic(tweet, face, problems, sourceCfg);
+        var problems = self.checkProblematic(tweet, face, trigger, function(probCfg) {
+          if (!probCfg.problems) return;
+          self.handleProblematic(tweet, face, probCfg, sourceCfg);
+        });
       });
     })
   },

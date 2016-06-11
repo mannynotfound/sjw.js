@@ -1,10 +1,7 @@
 var unirest = require('unirest');
 
-function getFace(tweet, key, cb) {
-  if (!tweet.user || !tweet.user.profile_image_url) {
-    return cb(new Error('No Profile Image'))
-  }
-  var url = encodeURI(tweet.user.profile_image_url.replace('normal.jpg', '400x400.jpg'));
+function getFace(imageUrl, key, cb) {
+  var url = encodeURI(imageUrl.replace('normal.jpg', '400x400.jpg'));
 
   unirest.get("https://faceplusplus-faceplusplus.p.mashape.com/detection/detect?attribute=glass%2Cpose%2Cgender%2Cage%2Crace%2Csmiling&url=" + url)
     .header("X-Mashape-Key", key)
