@@ -8,12 +8,23 @@
 
 # sjw.js
 
-A tool for automatically finding problematic users on Twitter.com
+A tool for automatically finding abusive and problematic users on Twitter.com
 
 ## inspo
 
-Currently powering an experiment with face detection API, im listening to twitter stream for the "n word" and running face detection against the tweeter's profile pic.
-If a face belonging to a white person is found, the user is saved to a database and an automated screenshot of the tweet is tweeted by [@sjw_js](https://twitter.com/sjw_js) for permanent documentation.
+Originally an experiment to use facial recognition to find white people saying the "n word", 
+the goal is to expand the amount of recognizable social contexts and document them.
+By using a primative keyword matching system a large net is cast over Twitter streams that can then
+be fed into smarter algorithms and reveal mystic truths.
+
+## process
+
+* Tweet with trigger words detected
+* Facial recognition run on avatar
+* If face detected, check for offending traits & context
+* If problematic, take an automated screenshot + store (tweet object)[https://dev.twitter.com/overview/api/tweets] in database
+* Curate tweets manually or run ML suite against database 
+* Tweet the best screenshots & findings at [@sjw.js](https://twitter.com/sjw_js)
 
 ## usage
 
@@ -27,7 +38,7 @@ set a config object that looks like so:
   "triggers": [
     {
       // identifier for trigger
-      "label": "nword",
+      "label": "trigger label",
       // trigger words
       "keywords": [
         "twitter",
@@ -88,4 +99,4 @@ sjWarrior.startStream();
 * create `triggers` api for social rulesets
 * pretty up the console output some more
 * ~~allow more output customization~~
-* incorporate NLP where makes sense
+* incorporate NLP where make sense
